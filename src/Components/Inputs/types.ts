@@ -4,6 +4,7 @@ import * as CommonTypes from "./Common/types";
 import * as DatePickerTypes from "./DatePicker/types";
 import * as DomainInputTypes from "./DomainInput/types";
 import * as InputTypes from "./Input/types";
+import * as RadioGroupTypes from "./RadioGroup/types";
 import * as SelectTypes from "./Select/types";
 import * as SwitchTypes from "./Switch/types";
 import * as TextareaTypes from "./Textarea/types";
@@ -14,6 +15,7 @@ export {
   CheckboxTypes,
   CommonTypes,
   DomainInputTypes,
+  RadioGroupTypes,
   InputTypes,
   SelectTypes,
   SwitchTypes,

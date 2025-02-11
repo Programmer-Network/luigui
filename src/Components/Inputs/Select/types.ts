@@ -1,7 +1,9 @@
 import { PropsValue } from "react-select";
 
+export type OptionValue = string | number;
+
 export type Option = {
-  value: string | number;
+  value: OptionValue;
   label: string;
 };
 
