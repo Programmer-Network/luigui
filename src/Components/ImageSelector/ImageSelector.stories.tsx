@@ -55,6 +55,7 @@ export const Primary = () => {
         value={value}
         onSelected={handleSelected}
         onDelete={handleDelete}
+        onSorted={setImages}
       />
     </div>
   );

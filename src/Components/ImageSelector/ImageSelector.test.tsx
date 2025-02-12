@@ -93,4 +93,26 @@ describe("ImageSelector component", () => {
       />
     );
   });
+
+  test("calls onSorted with sorted images when an image is dragged and dropped", async () => {
+    const onSorted = vi.fn();
+    render(
+      <ImageSelector
+        images={mockImages}
+        value={mockImages[0]}
+        onSelected={vi.fn()}
+        onDelete={vi.fn()}
+        onSorted={onSorted}
+      />
+    );
+
+    const firstImage = screen.getByTestId(`image-${mockImages[0].id}`);
+    const secondImage = screen.getByTestId(`image-${mockImages[1].id}`);
+
+    fireEvent.dragStart(firstImage);
+    fireEvent.dragOver(secondImage);
+    fireEvent.dragEnd(firstImage);
+
+    expect(onSorted).toHaveBeenCalledWith([mockImages[1], mockImages[0]]);
+  });
 });

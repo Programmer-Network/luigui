@@ -8,6 +8,7 @@ import { IImage, IImageSelectorProps } from "./types";
 
 const ImageSelector: FC<IImageSelectorProps> = ({
   images,
+  onSorted,
   value,
   onSelected,
   onDelete
@@ -15,10 +16,33 @@ const ImageSelector: FC<IImageSelectorProps> = ({
   const [selected, setSelected] = useState<IImage>(value || images[0]);
   const [hoveredImage, setHoveredImage] = useState<IImage | null>(null);
   const [itemToDelete, setItemToDelete] = useState<IImage | null>(null);
+  const [draggingImage, setDraggingImage] = useState<IImage | null>(null);
 
   useEffect(() => {
     setSelected(value);
   }, [images.length, value]);
+
+  const handleDragStart = (image: IImage) => {
+    setDraggingImage(image);
+  };
+
+  const handleDragOver = (image: IImage) => {
+    if (!onSorted) return;
+    if (draggingImage) {
+      const draggingIndex = images.indexOf(draggingImage);
+      const targetIndex = images.indexOf(image);
+
+      const imagesCopy: IImage[] = [...images];
+      imagesCopy.splice(draggingIndex, 1);
+      imagesCopy.splice(targetIndex, 0, draggingImage);
+
+      onSorted(imagesCopy);
+    }
+  };
+
+  const handleDragEnd = () => {
+    setDraggingImage(null);
+  };
 
   return (
     <div className='yl-grid yl-grid-cols-4 yl-gap-4'>
@@ -30,6 +54,12 @@ const ImageSelector: FC<IImageSelectorProps> = ({
               setSelected(image);
               onSelected(image);
             }}
+            {...(onSorted && {
+              draggable: true,
+              onDragStart: () => handleDragStart(image),
+              onDragOver: () => handleDragOver(image),
+              onDragEnd: handleDragEnd
+            })}
             onMouseEnter={() => setHoveredImage(image)}
             onMouseLeave={() => setHoveredImage(null)}
             key={image.id}
